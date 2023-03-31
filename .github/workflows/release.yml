@@ -25,15 +25,16 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "noreply@github.com"
 
-      - name: Generate changelog
-        uses: github-changelog-generator/action@v1.4.4
-        with:
-          user_email: "noreply@github.com"
-          user_name: ${{ env.GITHUB_ACTOR }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          exclude_labels: "wontfix,invalid"
-          future_release: v${{ env.VERSION }}
-          output_file: CHANGELOG.md
+      # - name: Generate changelog
+      #   uses: github-changelog-generator/action@v1.4.4
+      #   with:
+      #     user_email: "noreply@github.com"
+      #     user_name: ${{ env.GITHUB_ACTOR }}
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     exclude_labels: "wontfix,invalid"
+      #     future_release: v${{ env.VERSION }}
+      #     output_file: CHANGELOG.md
+
       - name: Release
         uses: goreleaser/goreleaser-action@v2
         with:
