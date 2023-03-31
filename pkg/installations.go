@@ -53,7 +53,7 @@ func Token(itr *ghinstallation.Transport, appID int64, key []byte) (string, erro
 	return bearer.SignedString(key)
 }
 
-// Token returns the complete, signed Github app JWT token
+// Token returns the complete, signed Github app JWT token.
 func AppToken(itr *ghinstallation.AppsTransport, appID int64, key []byte) (string, error) {
 
 	log.Printf("AppToken itr: %#v", itr)

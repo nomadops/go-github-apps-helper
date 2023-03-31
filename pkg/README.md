@@ -42,7 +42,7 @@ AppRemoveRepoFromInstallation removes a GitHub repository from a GitHub App inst
 func AppToken(itr *ghinstallation.AppsTransport, appID int64, key []byte) (string, error)
 ```
 
-Token returns the complete, signed Github app JWT token
+Token returns the complete, signed Github app JWT token.
 
 ## func RemoveRepoFromInstallation
 
