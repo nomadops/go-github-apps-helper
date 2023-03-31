@@ -54,7 +54,7 @@ func Token(itr *ghinstallation.Transport, appID int64, key []byte) (string, erro
 }
 
 // Token returns the complete, signed Github app JWT token.
-func AppToken(itr *ghinstallation.AppsTransport, appID int64, key []byte) (string, error) {
+func AppToken(itr *ghinstallation.AppsTransport, appID int64, key []byte) ([]byte, error) {
 
 	log.Printf("AppToken itr: %#v", itr)
 	log.Printf("key: %s", key)
@@ -69,7 +69,8 @@ func AppToken(itr *ghinstallation.AppsTransport, appID int64, key []byte) (strin
 	bearer := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
 	log.Printf("bearer: %#v", bearer)
 
-	return bearer.SignedString(key)
+	bearerString, err := bearer.SignedString(key)
+	return []byte(bearerString), err
 }
 
 // AppRemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation.
