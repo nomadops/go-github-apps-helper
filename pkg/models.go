@@ -38,24 +38,26 @@ type InstallationReposEventPayload struct {
 			Contents string `json:"contents"`
 			Metadata string `json:"metadata"`
 		} `json:"permissions"`
-		Events                 []string      `json:"events"`
-		CreatedAt              time.Time     `json:"created_at"`
-		UpdatedAt              time.Time     `json:"updated_at"`
-		SingleFileName         interface{}   `json:"single_file_name"`
-		HasMultipleSingleFiles bool          `json:"has_multiple_single_files"`
-		SingleFilePaths        []interface{} `json:"single_file_paths"`
-		SuspendedBy            interface{}   `json:"suspended_by"`
-		SuspendedAt            interface{}   `json:"suspended_at"`
+		Events                 []string  `json:"events"`
+		CreatedAt              time.Time `json:"created_at"`
+		UpdatedAt              time.Time `json:"updated_at"`
+		SingleFileName         any       `json:"single_file_name"`
+		HasMultipleSingleFiles bool      `json:"has_multiple_single_files"`
+		SingleFilePaths        []any     `json:"single_file_paths"`
+		SuspendedBy            any       `json:"suspended_by"`
+		SuspendedAt            any       `json:"suspended_at"`
 	} `json:"installation"`
-	Repositories []struct {
+	RepositorySelection string `json:"repository_selection"`
+	RepositoriesAdded   []struct {
 		ID       int    `json:"id"`
 		NodeID   string `json:"node_id"`
 		Name     string `json:"name"`
 		FullName string `json:"full_name"`
 		Private  bool   `json:"private"`
-	} `json:"repositories"`
-	Requester interface{} `json:"requester"`
-	Sender    struct {
+	} `json:"repositories_added"`
+	RepositoriesRemoved []any `json:"repositories_removed"`
+	Requester           any   `json:"requester"`
+	Sender              struct {
 		Login             string `json:"login"`
 		ID                int    `json:"id"`
 		NodeID            string `json:"node_id"`
