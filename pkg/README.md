@@ -22,19 +22,18 @@ import "github.com/nomadops/go-github-apps-helpers/pkg"
 
 ## Index
 
-- [func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, token []byte) error](<#func-appremoverepofrominstallation>)
+- [func AppRemoveRepoFromInstallation(appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, key []byte) error](<#func-appremoverepofrominstallation>)
 - [func AppToken(itr *ghinstallation.AppsTransport, appID int64, key []byte) ([]byte, error)](<#func-apptoken>)
-- [func RemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.Transport) error](<#func-removerepofrominstallation>)
 - [func Token(itr *ghinstallation.Transport, appID int64, key []byte) (string, error)](<#func-token>)
 
 
 ## func AppRemoveRepoFromInstallation
 
 ```go
-func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, token []byte) error
+func AppRemoveRepoFromInstallation(appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, key []byte) error
 ```
 
-AppRemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation. func AppRemoveRepoFromInstallation\(ctx context.Context, appID int64, installationID int64, repoID int64, itr \*ghinstallation.AppsTransport, token \[\]byte\) error \{
+AppRemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation. func AppRemoveRepoFromInstallation\(ctx context.Context, appID int64, installationID int64, repoID int64, itr \*ghinstallation.AppsTransport, token \[\]byte\) error \{ func AppRemoveRepoFromInstallation\(appID int64, installationID int64, repoID int64, itr \*ghinstallation.AppsTransport, token \[\]byte\) error \{
 
 ## func AppToken
 
@@ -43,14 +42,6 @@ func AppToken(itr *ghinstallation.AppsTransport, appID int64, key []byte) ([]byt
 ```
 
 Token returns the complete, signed Github app JWT token.
-
-## func RemoveRepoFromInstallation
-
-```go
-func RemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.Transport) error
-```
-
-RemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation.
 
 ## func Token
 

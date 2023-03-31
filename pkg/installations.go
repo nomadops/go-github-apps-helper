@@ -10,36 +10,8 @@ import (
 
 	"github.com/bradleyfalzon/ghinstallation/v2"
 	jwt "github.com/golang-jwt/jwt"
+	"github.com/google/go-github/github"
 )
-
-// RemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation.
-func RemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.Transport) error {
-	// Create a new HTTP client using the installation transport
-	client := &http.Client{
-		Transport: itr,
-	}
-
-	// Create the API request to remove the repository from the installation
-	requestUrl := fmt.Sprintf("https://api.github.com/user/installations/%d/repositories/%d", installationID, repoID)
-	req, err := http.NewRequestWithContext(ctx, http.MethodDelete, requestUrl, nil)
-	if err != nil {
-		return fmt.Errorf("failed to create API request: %w", err)
-	}
-
-	// Send the API request using the HTTP client
-	resp, err := client.Do(req)
-	if err != nil {
-		return fmt.Errorf("failed to remove repository from installation: %w", err)
-	}
-	defer resp.Body.Close()
-
-	// Check the API response status code
-	if resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("unexpected API response status code: %d", resp.StatusCode)
-	}
-
-	return nil
-}
 
 // Token returns the complete, signed Github app JWT token
 func Token(itr *ghinstallation.Transport, appID int64, key []byte) (string, error) {
@@ -75,36 +47,28 @@ func AppToken(itr *ghinstallation.AppsTransport, appID int64, key []byte) ([]byt
 
 // AppRemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation.
 // func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, token []byte) error {
-func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, token []byte) error {
+// func AppRemoveRepoFromInstallation(appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, token []byte) error {
+func AppRemoveRepoFromInstallation(appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, key []byte) error {
 
-	tr := http.DefaultTransport
-	log.Printf("AppRemoveRepoFromInstallation itr: %#v", itr)
-	log.Printf("AppRemoveRepoFromInstallation itr: %+v", itr)
+	client := github.NewClient(&http.Client{
+		Transport: itr,
+	})
 
-	// Create a new HTTP client using the installation transport
-	client := &http.Client{Transport: tr}
-
-	// Create the API request to remove the repository from the installation
-	requestUrl := fmt.Sprintf("https://api.github.com/user/installations/%d/repositories/%d", installationID, repoID)
-	req, err := http.NewRequestWithContext(ctx, http.MethodDelete, requestUrl, nil)
+	req, err := client.NewRequest("DELETE", fmt.Sprintf("installations/%d/repositories/%d", installationID, repoID), nil)
 	if err != nil {
-		return fmt.Errorf("failed to create API request: %w", err)
+		return fmt.Errorf("failed to create the request: %w", err)
 	}
 
-	req.Header.Set("Accept", "application/vnd.github+json")
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
-
-	// Send the API request using the HTTP client
-	resp, err := client.Do(req)
+	resp, err := client.Do(context.Background(), req, nil)
 	if err != nil {
-		return fmt.Errorf("failed to remove repository from installation: %w", err)
+		return fmt.Errorf("failed to remove the repository from the installation: %w", err)
 	}
 	defer resp.Body.Close()
 
-	// Check the API response status code
 	if resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("unexpected API response status code: %d", resp.StatusCode)
+		return fmt.Errorf("unexpected status code: %d", resp.StatusCode)
 	}
 
+	fmt.Printf("Repository with ID %d has been removed from installation %d\n", repoID, installationID)
 	return nil
 }
