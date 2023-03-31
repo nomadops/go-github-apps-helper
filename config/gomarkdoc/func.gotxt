@@ -1,0 +1,20 @@
+{{- if .Receiver -}}
+	{{- codeHref .Location | link (escape .Name) | printf "func \\(%s\\) %s" (escape .Receiver) | rawHeader .Level -}}
+{{- else -}}
+	{{- codeHref .Location | link (escape .Name) | printf "func %s" | rawHeader .Level -}}
+{{- end -}}
+{{- spacer -}}
+
+{{- codeBlock "go" .Signature -}}
+{{- spacer -}}
+
+{{- template "doc" .Doc -}}
+
+{{- if len .Examples -}}
+	{{- spacer -}}
+
+	{{- range (iter .Examples) -}}
+		{{- template "example" .Entry -}}
+		{{- if (not .Last) -}}{{- spacer -}}{{- end -}}
+	{{- end -}}
+{{- end -}}
