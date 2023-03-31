@@ -9,7 +9,7 @@ import (
 )
 
 // RemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation.
-func RemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.Transport) error {
+func RemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport) error {
 
 	// Create a new HTTP client using the installation transport
 	client := &http.Client{
