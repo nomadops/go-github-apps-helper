@@ -52,7 +52,7 @@ jobs:
         uses: goreleaser/goreleaser-action@v4.2.0
         with:
           version: latest
-          args: release --rm-dist --skip-build
+          args: release --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ env.VERSION }}
