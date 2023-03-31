@@ -3,6 +3,7 @@ package installations
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -54,12 +55,19 @@ func Token(itr *ghinstallation.Transport, appID int64, key string) (string, erro
 
 // Token returns the complete, signed Github app JWT token
 func AppToken(itr *ghinstallation.AppsTransport, appID int64, key string) (string, error) {
+	log.Printf("AppToken itr: %+v", itr)
+	log.Printf("AppToken itr: %#v", itr)
+	log.Printf("AppToken key: %s", key)
 	claims := &jwt.StandardClaims{
 		IssuedAt:  time.Now().Unix(),
 		ExpiresAt: time.Now().Add(time.Minute).Unix(),
 		Issuer:    strconv.FormatInt(appID, 10),
 	}
+	log.Printf("AppToken claims: %#v", claims)
+	log.Printf("AppToken claims: %+v", claims)
 	bearer := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
+	log.Printf("AppToken bearer: %#v", bearer)
+	log.Printf("AppToken bearer: %+v", bearer)
 
 	return bearer.SignedString(key)
 }
@@ -67,6 +75,9 @@ func AppToken(itr *ghinstallation.AppsTransport, appID int64, key string) (strin
 // AppRemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation.
 // func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, token string) error {
 func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport) error {
+
+	log.Printf("AppRemoveRepoFromInstallation itr: %#v", itr)
+	log.Printf("AppRemoveRepoFromInstallation itr: %+v", itr)
 
 	// Create a new HTTP client using the installation transport
 	client := &http.Client{Transport: itr}
