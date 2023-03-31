@@ -54,12 +54,7 @@ func Token(itr *ghinstallation.AppsTransport, appID int64, key string) (string, 
 }
 
 // AppRemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation.
-func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, key string) error {
-
-	token, err := Token(itr, appID, key)
-	if err != nil {
-		return fmt.Errorf("failed to create token: %w", err)
-	}
+func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, token string) error {
 
 	// Create a new HTTP client using the installation transport
 	client := &http.Client{
