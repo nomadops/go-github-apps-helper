@@ -22,7 +22,7 @@ import "github.com/nomadops/go-github-apps-helpers/pkg"
 
 ## Index
 
-- [func AppRemoveRepoFromInstallation(appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport) error](<#func-appremoverepofrominstallation>)
+- [func AppRemoveRepoFromInstallation(appID int64, installationID int64, repoID int64, client *github.Client) error](<#func-appremoverepofrominstallation>)
 - [func AppToken(itr *ghinstallation.AppsTransport, appID int64, key []byte) ([]byte, error)](<#func-apptoken>)
 - [func Token(itr *ghinstallation.Transport, appID int64, key []byte) (string, error)](<#func-token>)
 
@@ -30,10 +30,10 @@ import "github.com/nomadops/go-github-apps-helpers/pkg"
 ## func AppRemoveRepoFromInstallation
 
 ```go
-func AppRemoveRepoFromInstallation(appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport) error
+func AppRemoveRepoFromInstallation(appID int64, installationID int64, repoID int64, client *github.Client) error
 ```
 
-AppRemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation. func AppRemoveRepoFromInstallation\(ctx context.Context, appID int64, installationID int64, repoID int64, itr \*ghinstallation.AppsTransport, token \[\]byte\) error \{ func AppRemoveRepoFromInstallation\(appID int64, installationID int64, repoID int64, itr \*ghinstallation.AppsTransport, token \[\]byte\) error \{ func AppRemoveRepoFromInstallation\(appID int64, installationID int64, repoID int64, itr \*ghinstallation.AppsTransport, key \[\]byte\) error \{
+AppRemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation. func AppRemoveRepoFromInstallation\(ctx context.Context, appID int64, installationID int64, repoID int64, itr \*ghinstallation.AppsTransport, token \[\]byte\) error \{ func AppRemoveRepoFromInstallation\(appID int64, installationID int64, repoID int64, itr \*ghinstallation.AppsTransport, token \[\]byte\) error \{ func AppRemoveRepoFromInstallation\(appID int64, installationID int64, repoID int64, itr \*ghinstallation.AppsTransport, key \[\]byte\) error \{ func AppRemoveRepoFromInstallation\(appID int64, installationID int64, repoID int64, itr \*ghinstallation.AppsTransport\) error \{
 
 ## func AppToken
 

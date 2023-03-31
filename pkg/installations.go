@@ -49,9 +49,8 @@ func AppToken(itr *ghinstallation.AppsTransport, appID int64, key []byte) ([]byt
 // func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, token []byte) error {
 // func AppRemoveRepoFromInstallation(appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, token []byte) error {
 // func AppRemoveRepoFromInstallation(appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, key []byte) error {
-func AppRemoveRepoFromInstallation(appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport) error {
-
-	client := github.NewClient(&http.Client{Transport: itr})
+// func AppRemoveRepoFromInstallation(appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport) error {
+func AppRemoveRepoFromInstallation(appID int64, installationID int64, repoID int64, client *github.Client) error {
 
 	req, err := client.NewRequest("DELETE", fmt.Sprintf("installations/%d/repositories/%d", installationID, repoID), nil)
 	if err != nil {
