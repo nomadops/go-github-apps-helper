@@ -42,7 +42,19 @@ func RemoveRepoFromInstallation(ctx context.Context, appID int64, installationID
 }
 
 // Token returns the complete, signed Github app JWT token
-func Token(itr *ghinstallation.AppsTransport, appID int64, key string) (string, error) {
+func Token(itr *ghinstallation.Transport, appID int64, key string) (string, error) {
+	claims := &jwt.StandardClaims{
+		IssuedAt:  time.Now().Unix(),
+		ExpiresAt: time.Now().Add(time.Minute).Unix(),
+		Issuer:    strconv.FormatInt(appID, 10),
+	}
+	bearer := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
+
+	return bearer.SignedString(key)
+}
+
+// Token returns the complete, signed Github app JWT token
+func AppToken(itr *ghinstallation.AppsTransport, appID int64, key string) (string, error) {
 	claims := &jwt.StandardClaims{
 		IssuedAt:  time.Now().Unix(),
 		ExpiresAt: time.Now().Add(time.Minute).Unix(),
