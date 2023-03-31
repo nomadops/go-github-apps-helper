@@ -4,8 +4,11 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/bradleyfalzon/ghinstallation/v2"
+	"github.com/golang-jwt/jwt"
 )
 
 // RemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation.
@@ -38,8 +41,25 @@ func RemoveRepoFromInstallation(ctx context.Context, appID int64, installationID
 	return nil
 }
 
-// RemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation.
-func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport) error {
+// Token returns the complete, signed Github app JWT token
+func Token(itr *ghinstallation.AppsTransport, appID int64, key string) (string, error) {
+	claims := &jwt.StandardClaims{
+		IssuedAt:  time.Now().Unix(),
+		ExpiresAt: time.Now().Add(time.Minute).Unix(),
+		Issuer:    strconv.FormatInt(appID, 10),
+	}
+	bearer := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
+
+	return bearer.SignedString(key)
+}
+
+// AppRemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation.
+func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, key string) error {
+
+	token, err := Token(itr, appID, key)
+	if err != nil {
+		return fmt.Errorf("failed to create token: %w", err)
+	}
 
 	// Create a new HTTP client using the installation transport
 	client := &http.Client{
@@ -52,6 +72,8 @@ func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installatio
 	if err != nil {
 		return fmt.Errorf("failed to create API request: %w", err)
 	}
+
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
 
 	// Send the API request using the HTTP client
 	resp, err := client.Do(req)
