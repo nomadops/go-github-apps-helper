@@ -69,9 +69,7 @@ func AppToken(itr *ghinstallation.AppsTransport, appID int64, key string) (strin
 func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport) error {
 
 	// Create a new HTTP client using the installation transport
-	client := &http.Client{
-		Transport: itr,
-	}
+	client := &http.Client{Transport: itr}
 
 	// Create the API request to remove the repository from the installation
 	requestUrl := fmt.Sprintf("https://api.github.com/user/installations/%d/repositories/%d", installationID, repoID)
