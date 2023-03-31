@@ -65,7 +65,8 @@ func AppToken(itr *ghinstallation.AppsTransport, appID int64, key string) (strin
 }
 
 // AppRemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation.
-func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, token string) error {
+// func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, token string) error {
+func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport) error {
 
 	// Create a new HTTP client using the installation transport
 	client := &http.Client{
@@ -79,7 +80,7 @@ func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installatio
 		return fmt.Errorf("failed to create API request: %w", err)
 	}
 
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+	// req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
 	req.Header.Set("Accept", "application/vnd.github+json")
 
 	// Send the API request using the HTTP client
