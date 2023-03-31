@@ -10,7 +10,7 @@ import (
 
 	"github.com/bradleyfalzon/ghinstallation/v2"
 	jwt "github.com/golang-jwt/jwt"
-	"github.com/google/go-github/github"
+	"github.com/google/go-github/v41/github"
 )
 
 // Token returns the complete, signed Github app JWT token

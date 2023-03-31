@@ -6,6 +6,7 @@ require (
 	github.com/bradleyfalzon/ghinstallation/v2 v2.2.0
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/google/go-github v17.0.0+incompatible
+	github.com/google/go-github/v41 v41.0.0
 	golang.org/x/oauth2 v0.6.0
 )
 
