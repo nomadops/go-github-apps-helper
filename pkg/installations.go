@@ -65,7 +65,10 @@ func AppToken(itr *ghinstallation.AppsTransport, appID int64, key string) (strin
 		ExpiresAt: time.Now().Add(time.Minute).Unix(),
 		Issuer:    strconv.FormatInt(appID, 10),
 	}
+
+	log.Printf("claims: %#v", claims)
 	bearer := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
+	log.Printf("bearer: %#v", bearer)
 
 	return bearer.SignedString(key)
 }
