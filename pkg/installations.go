@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/bradleyfalzon/ghinstallation/v2"
-	jwt "github.com/dgrijalva/jwt-go"
+	jwt "github.com/golang-jwt/jwt"
 )
 
 // RemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation.
@@ -42,7 +42,7 @@ func RemoveRepoFromInstallation(ctx context.Context, appID int64, installationID
 }
 
 // Token returns the complete, signed Github app JWT token
-func Token(itr *ghinstallation.Transport, appID int64, key string) (string, error) {
+func Token(itr *ghinstallation.Transport, appID int64, key []byte) (string, error) {
 	claims := &jwt.StandardClaims{
 		IssuedAt:  time.Now().Unix(),
 		ExpiresAt: time.Now().Add(time.Minute).Unix(),
@@ -54,7 +54,7 @@ func Token(itr *ghinstallation.Transport, appID int64, key string) (string, erro
 }
 
 // Token returns the complete, signed Github app JWT token
-func AppToken(itr *ghinstallation.AppsTransport, appID int64, key string) (string, error) {
+func AppToken(itr *ghinstallation.AppsTransport, appID int64, key []byte) (string, error) {
 
 	log.Printf("AppToken itr: %#v", itr)
 	log.Printf("AppToken itr: %+v", itr)
@@ -74,8 +74,8 @@ func AppToken(itr *ghinstallation.AppsTransport, appID int64, key string) (strin
 }
 
 // AppRemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation.
-// func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, token string) error {
-func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, token string) error {
+// func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, token []byte) error {
+func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, token []byte) error {
 
 	log.Printf("AppRemoveRepoFromInstallation itr: %#v", itr)
 	log.Printf("AppRemoveRepoFromInstallation itr: %+v", itr)
@@ -90,7 +90,6 @@ func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installatio
 		return fmt.Errorf("failed to create API request: %w", err)
 	}
 
-	// req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
 	req.Header.Set("Accept", "application/vnd.github+json")
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
 
