@@ -25,6 +25,7 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "noreply@github.com"
 
+      # Temporarily disable
       # - name: Generate changelog
       #   uses: github-changelog-generator/action@v1.4.4
       #   with:
