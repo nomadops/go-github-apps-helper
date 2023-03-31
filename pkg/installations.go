@@ -57,7 +57,6 @@ func Token(itr *ghinstallation.Transport, appID int64, key []byte) (string, erro
 func AppToken(itr *ghinstallation.AppsTransport, appID int64, key []byte) (string, error) {
 
 	log.Printf("AppToken itr: %#v", itr)
-	log.Printf("AppToken itr: %+v", itr)
 	log.Printf("key: %s", key)
 
 	claims := &jwt.StandardClaims{
