@@ -13,7 +13,6 @@ import (
 
 // RemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation.
 func RemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.Transport) error {
-
 	// Create a new HTTP client using the installation transport
 	client := &http.Client{
 		Transport: itr,
@@ -81,6 +80,7 @@ func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installatio
 	}
 
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+	req.Header.Set("Accept", "application/vnd.github+json")
 
 	// Send the API request using the HTTP client
 	resp, err := client.Do(req)
