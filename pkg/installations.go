@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/bradleyfalzon/ghinstallation/v2"
-	"github.com/golang-jwt/jwt"
+	jwt "github.com/dgrijalva/jwt-go"
 )
 
 // RemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation.
@@ -55,26 +55,24 @@ func Token(itr *ghinstallation.Transport, appID int64, key string) (string, erro
 
 // Token returns the complete, signed Github app JWT token
 func AppToken(itr *ghinstallation.AppsTransport, appID int64, key string) (string, error) {
-	log.Printf("AppToken itr: %+v", itr)
+
 	log.Printf("AppToken itr: %#v", itr)
-	log.Printf("AppToken key: %s", key)
+	log.Printf("AppToken itr: %+v", itr)
+	log.Printf("key: %s", key)
+
 	claims := &jwt.StandardClaims{
 		IssuedAt:  time.Now().Unix(),
 		ExpiresAt: time.Now().Add(time.Minute).Unix(),
 		Issuer:    strconv.FormatInt(appID, 10),
 	}
-	log.Printf("AppToken claims: %#v", claims)
-	log.Printf("AppToken claims: %+v", claims)
 	bearer := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
-	log.Printf("AppToken bearer: %#v", bearer)
-	log.Printf("AppToken bearer: %+v", bearer)
 
 	return bearer.SignedString(key)
 }
 
 // AppRemoveRepoFromInstallation removes a GitHub repository from a GitHub App installation.
 // func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, token string) error {
-func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport) error {
+func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installationID int64, repoID int64, itr *ghinstallation.AppsTransport, token string) error {
 
 	log.Printf("AppRemoveRepoFromInstallation itr: %#v", itr)
 	log.Printf("AppRemoveRepoFromInstallation itr: %+v", itr)
@@ -91,6 +89,7 @@ func AppRemoveRepoFromInstallation(ctx context.Context, appID int64, installatio
 
 	// req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
 	req.Header.Set("Accept", "application/vnd.github+json")
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
 
 	// Send the API request using the HTTP client
 	resp, err := client.Do(req)
